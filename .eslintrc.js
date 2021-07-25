@@ -14,6 +14,12 @@ module.exports = {
       files: ["*.svelte"],
       processor: "svelte3/svelte3",
     },
+    {
+      files: ["*.ts", "*.tsx"],
+      parserOptions: {
+        project: ["./tsconfig.json"],
+      },
+    },
   ],
   settings: {
     "svelte3/typescript": require("typescript"),
