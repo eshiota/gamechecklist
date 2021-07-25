@@ -3,7 +3,6 @@
 
   import GamesList from "./components/GamesList.svelte";
   import { games } from "./stores/games";
-
   let page = 0;
   let limit = 100;
 

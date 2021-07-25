@@ -6,11 +6,12 @@ export async function getGames({
 }: {
   page: number;
   limit: number;
-}): Promise<GetGamesResponse> {
+}): Promise<GiantBomb.GetGamesResponse> {
   const res = await fetch(
     `https://www.giantbomb.com/api/games/?api_key=${apiKey}&format=json&sort=name:asc&limit=${limit}&offset=${
       page * limit
     }`
   );
-  return await res.json();
+
+  return (await res.json()) as GiantBomb.GetGamesResponse;
 }
