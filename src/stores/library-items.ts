@@ -30,7 +30,7 @@ function createStore() {
   return {
     subscribe,
     updateItem: (guid: GiantBomb.Game["guid"], data: LibraryItemData = {}) =>
-      update((store) => ({ ...store, [guid]: data })),
+      update((store) => ({ ...store, [guid]: { ...store[guid], ...data } })),
     removeItem: (guid: GiantBomb.Game["guid"]) =>
       update((store) => {
         delete store[guid];

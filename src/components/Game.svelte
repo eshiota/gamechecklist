@@ -3,6 +3,8 @@
 
   export let game: GiantBomb.Game;
 
+  $: libraryItem = $libraryItems[game.guid];
+
   function handleClickAddToLibrary() {
     libraryItems.updateItem(game.guid);
   }
@@ -10,6 +12,17 @@
   function handleClickRemoveFromLibrary() {
     libraryItems.removeItem(game.guid);
   }
+
+  function bindHandleChange(field: string) {
+    return (e) =>
+      libraryItems.updateItem(game.guid, { [field]: !!e.target.checked });
+  }
+
+  function handleChange(field: string, checked: boolean) {
+    libraryItems.updateItem(game.guid, { [field]: checked });
+  }
+
+  libraryItems.subscribe((value) => console.log(value));
 </script>
 
 <main>
@@ -30,7 +43,28 @@
       {game.guid}
     </div>
     <div class="game-actions">
-      {#if $libraryItems[game.guid]}
+      {#if libraryItem}
+        <label>
+          <input
+            type="checkbox"
+            bind:checked={libraryItem.owned}
+            on:change={bindHandleChange("owned")}
+          /> Owned
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            bind:checked={libraryItem.played}
+            on:change={bindHandleChange("played")}
+          /> Played
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            bind:checked={libraryItem.finished}
+            on:change={bindHandleChange("finished")}
+          /> Finished
+        </label>
         <button on:click={handleClickRemoveFromLibrary}
           >Remove from library</button
         >
