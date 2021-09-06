@@ -18,10 +18,6 @@
       libraryItems.updateItem(game.guid, { [field]: !!e.target.checked });
   }
 
-  function handleChange(field: string, checked: boolean) {
-    libraryItems.updateItem(game.guid, { [field]: checked });
-  }
-
   libraryItems.subscribe((value) => console.log(value));
 </script>
 
