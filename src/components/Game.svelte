@@ -13,9 +13,21 @@
     personalListItems.removeItem(game.guid);
   }
 
-  function bindHandleChange(field: string) {
-    return (e) =>
-      personalListItems.updateItem(game.guid, { [field]: !!e.target.checked });
+  function bindHandleChange(field: keyof typeof personalListItem) {
+    return (e) => {
+      const checked = !!e.target.checked;
+      const updateData = { [field]: checked };
+
+      if (field === "finished" && checked) {
+        updateData["played"] = true;
+      }
+
+      if (field === "played" && !checked) {
+        updateData["finished"] = false;
+      }
+
+      personalListItems.updateItem(game.guid, updateData);
+    };
   }
 
   personalListItems.subscribe((value) => console.log(value));
@@ -40,6 +52,13 @@
     </div>
     <div class="game-actions">
       {#if personalListItem}
+        <label>
+          <input
+            type="checkbox"
+            bind:checked={personalListItem.wanted}
+            on:change={bindHandleChange("wanted")}
+          /> Wanted
+        </label>
         <label>
           <input
             type="checkbox"
