@@ -1,24 +1,24 @@
 <script lang="ts">
-  import { libraryItems } from "../stores/library-items";
+  import { personalListItems } from "../stores/personal-list";
 
   export let game: GiantBomb.Game;
 
-  $: libraryItem = $libraryItems[game.guid];
+  $: personalListItem = $personalListItems[game.guid];
 
-  function handleClickAddToLibrary() {
-    libraryItems.updateItem(game.guid);
+  function handleClickAddToPersonalList() {
+    personalListItems.updateItem(game.guid);
   }
 
-  function handleClickRemoveFromLibrary() {
-    libraryItems.removeItem(game.guid);
+  function handleClickRemoveFromPersonalList() {
+    personalListItems.removeItem(game.guid);
   }
 
   function bindHandleChange(field: string) {
     return (e) =>
-      libraryItems.updateItem(game.guid, { [field]: !!e.target.checked });
+      personalListItems.updateItem(game.guid, { [field]: !!e.target.checked });
   }
 
-  libraryItems.subscribe((value) => console.log(value));
+  personalListItems.subscribe((value) => console.log(value));
 </script>
 
 <main>
@@ -39,33 +39,35 @@
       {game.guid}
     </div>
     <div class="game-actions">
-      {#if libraryItem}
+      {#if personalListItem}
         <label>
           <input
             type="checkbox"
-            bind:checked={libraryItem.owned}
+            bind:checked={personalListItem.owned}
             on:change={bindHandleChange("owned")}
           /> Owned
         </label>
         <label>
           <input
             type="checkbox"
-            bind:checked={libraryItem.played}
+            bind:checked={personalListItem.played}
             on:change={bindHandleChange("played")}
           /> Played
         </label>
         <label>
           <input
             type="checkbox"
-            bind:checked={libraryItem.finished}
+            bind:checked={personalListItem.finished}
             on:change={bindHandleChange("finished")}
           /> Finished
         </label>
-        <button on:click={handleClickRemoveFromLibrary}
-          >Remove from library</button
+        <button on:click={handleClickRemoveFromPersonalList}
+          >Remove from personal list</button
         >
       {:else}
-        <button on:click={handleClickAddToLibrary}>Add to library</button>
+        <button on:click={handleClickAddToPersonalList}
+          >Add to personal list</button
+        >
       {/if}
     </div>
   </article>
